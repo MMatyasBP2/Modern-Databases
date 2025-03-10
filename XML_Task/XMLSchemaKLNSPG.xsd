@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Saját egyszerű típusok definiálása -->
+
+  <!-- Általános saját típusok-->
+  <xs:element name="name" type="xs:string"/>
+  <xs:element name="first_name" type="xs:string"/>
+  <xs:element name="last_name" type="xs:string"/>
+  <xs:element name="sex" type="sexType"/>
+  <xs:element name="description" type="xs:string"/>
+
+  <!-- Employee saját típus-->
+  <xs:element name="birth_date" type="dateType"/>
+  <xs:element name="posts" type="postsType"/>
+
+  <!-- Site saját típusok-->
+  <xs:element name="area" type="xs:integer"/>
+  <xs:element name="opening_hours" type="xs:string"/>
+
+  <!-- Habitat saját típus-->
+  <xs:element name="location" type="xs:string"/>
+
+  <!-- Animal saját típus-->
+  <xs:element name="racial" type="xs:string"/>
+
+  <!-- Food saját típus-->
+  <xs:element name="is_delicious" type="xs:boolean"/>
+  <xs:element name="companies" type="companyType"/>
+
+  <!-- Eat saját típus-->
+  <xs:element name="feeding_time" type="timeListType"/>
+
+  <!-- User saját típusok-->
+  <xs:element name="username" type="xs:string"/>
+  <xs:element name="password" type="xs:string"/>
+  <xs:element name="post_code" type="xs:string"/>
+  <xs:element name="city" type="xs:string"/>
+  <xs:element name="street" type="xs:string"/>
+  <xs:element name="number" type="xs:string"/>
+
+  <!-- Simple types-->
+  <xs:simpleType name="dateType">
+    <xs:restriction base="xs:date">
+      <xs:minInclusive value="1940-01-01"/>
+      <xs:maxInclusive value="2000-12-31"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sexType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="M"/>
+      <xs:enumeration value="F"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="timeListType">
+    <xs:list itemType="xs:time"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="postAttributeType">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="companyAttributeType">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Complex types-->
+  <xs:complexType name="employeeType">
+    <xs:sequence>
+      <xs:element ref="first_name"/>
+      <xs:element ref="last_name"/>
+      <xs:element ref="birth_date"/>
+      <xs:element ref="sex"/>
+      <xs:element ref="posts"/>
+    </xs:sequence>
+    <xs:attribute name="emp_id" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="postsType">
+    <xs:sequence>
+      <xs:element name="post" type="xs:string" minOccurs="1" maxOccurs="3"/>
+    </xs:sequence>
+      <xs:attribute name="post" type="postAttributeType"/>
+  </xs:complexType>
+
+  <xs:complexType name="siteType">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element ref="area"/>
+      <xs:element ref="opening_hours"/>
+    </xs:sequence>
+    <xs:attribute name="site_id" type="xs:integer" use="required"/>
+    <xs:attribute name="Works" type="xs:integer" use="required"/>
+    <xs:attribute name="Manage" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="habitatType">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element ref="location"/>
+      <xs:element ref="description"/>
+    </xs:sequence>
+    <xs:attribute name="habitat_id" type="xs:integer" use="required"/>
+    <xs:attribute name="Occupy" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="animalType">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element ref="racial"/>
+      <xs:element ref="description"/>
+    </xs:sequence>
+    <xs:attribute name="animal_id" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="foodType">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element ref="is_delicious"/>
+      <xs:element ref="companies"/>
+    </xs:sequence>
+    <xs:attribute name="food_id" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="companyType">
+    <xs:sequence>
+      <xs:element name="company" type="xs:string" minOccurs="1" maxOccurs="3"/>
+    </xs:sequence>
+      <xs:attribute name="company" type="companyAttributeType"/>
+  </xs:complexType>
+
+  <xs:complexType name="eatType">
+    <xs:sequence>
+        <xs:element ref="feeding_time"/>
+    </xs:sequence>
+    <xs:attribute name="eat_id" type="xs:integer" use="required"/>
+    <xs:attribute name="FoodEat" type="xs:integer" use="required"/>
+    <xs:attribute name="AnimalEat" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="userType">
+    <xs:sequence>
+      <xs:element ref="username"/>
+      <xs:element ref="password"/>
+      <xs:element ref="sex"/>
+      <xs:element ref="first_name"/>
+      <xs:element ref="last_name"/>
+      <xs:element ref="post_code"/>
+      <xs:element ref="city"/>
+      <xs:element ref="street"/>
+      <xs:element ref="number"/>
+    </xs:sequence>
+    <xs:attribute name="user_id" type="xs:integer" use="required"/>
+    <xs:attribute name="Favor" type="xs:integer" use="required"/>
+  </xs:complexType>
+
+  <!-- A gyökérelem összetett típusa -->
+  <xs:complexType name="zooType">
+    <xs:sequence>
+      <xs:element name="Employee" type="employeeType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="Site" type="siteType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="Habitat" type="habitatType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="Animal" type="animalType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="Food" type="foodType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="Eat" type="eatType" minOccurs="3" maxOccurs="unbounded"/>
+      <xs:element name="User" type="userType" minOccurs="3" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- A gyökérelem definíciója -->
+  <xs:element name="Zoo_KLNSPG" type="zooType">
+
+    <!-- Elsődleges kulcsok -->
+    <xs:key name="EmployeeKey">
+      <xs:selector xpath="Employee"/>
+      <xs:field xpath="@emp_id"/>
+    </xs:key>
+
+    <xs:key name="SiteKey">
+      <xs:selector xpath="Site"/>
+      <xs:field xpath="@site_id"/>
+    </xs:key>
+
+    <xs:key name="HabitatKey">
+      <xs:selector xpath="Habitat"/>
+      <xs:field xpath="@habitat_id"/>
+    </xs:key>
+
+    <xs:key name="AnimalKey">
+      <xs:selector xpath="Animal"/>
+      <xs:field xpath="@animal_id"/>
+    </xs:key>
+
+    <xs:key name="FoodKey">
+      <xs:selector xpath="Food"/>
+      <xs:field xpath="@food_id"/>
+    </xs:key>
+
+    <xs:key name="EatKey">
+      <xs:selector xpath="Eat"/>
+      <xs:field xpath="@eat_id"/>
+    </xs:key>
+
+    <xs:key name="UserKey">
+      <xs:selector xpath="User"/>
+      <xs:field xpath="@user_id"/>
+    </xs:key>
+
+    <!-- Idegen kulcsok -->
+    <xs:keyref name="SiteWork" refer="EmployeeKey">
+      <xs:selector xpath="Site"/>
+      <xs:field xpath="@Works"/>
+    </xs:keyref>
+
+    <xs:keyref name="SiteManage" refer="HabitatKey">
+      <xs:selector xpath="Site"/>
+      <xs:field xpath="@Manage"/>
+    </xs:keyref>
+
+    <xs:keyref name="HabitatOccupy" refer="AnimalKey">
+      <xs:selector xpath="Habitat"/>
+      <xs:field xpath="@Occupy"/>
+    </xs:keyref>
+
+    <xs:keyref name="EatFood" refer="FoodKey">
+      <xs:selector xpath="Eat"/>
+      <xs:field xpath="@FoodEat"/>
+    </xs:keyref>
+
+    <xs:keyref name="EatAnimal" refer="AnimalKey">
+      <xs:selector xpath="Eat"/>
+      <xs:field xpath="@AnimalEat"/>
+    </xs:keyref>
+
+    <xs:keyref name="UserAnimal" refer="AnimalKey">
+      <xs:selector xpath="User"/>
+      <xs:field xpath="@Favor"/>
+    </xs:keyref>
+
+     <!-- Az 1:1 kapcsolat-->
+     <xs:unique name="UserAnimalConnect">
+      <xs:selector xpath="UserKey"/>
+      <xs:field xpath="@Favor"/>
+    </xs:unique>
+
+  </xs:element>
+
+</xs:schema>
